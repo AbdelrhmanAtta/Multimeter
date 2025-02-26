@@ -1,9 +1,8 @@
-/*
- *
- *
- *
- */
-
+/* main.c
+*
+* Created : 29/3/2024
+* Author : A.Atta
+*/ 
 
 #include <avr/io.h>
 #include <util/delay.h>

@@ -1,15 +1,14 @@
 /* ranges.c
  *
  * Created : 9/12/2024
- * Author : Abdelrhman Atta, Zeyad Emad
+ * Author : A.Atta, Zeyad Emad
  *
  */
 
 #include "../inc/ranges.h"
-#include <stdlib.h>
-#include <math.h> // For roundf()
 
-float ranges_adc_to_reading(float Vref, int adc_reading) {
+float ranges_adc_to_reading(float Vref, int adc_reading) 
+{
     float value = (((float)adc_reading / 1023.0f) * Vref);
     return roundf(value * 100.0f) / 100.0f;
 }

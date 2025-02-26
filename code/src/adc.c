@@ -2,7 +2,7 @@
 *
 * Created : 11/4/2024 11:07:59 AM
 * Author : Zeyad Emad 
-* Coauthor : Abdelrhman Atta, Ahmed Wael
+* Coauthor : A.Atta
 */ 
 
 #include "../inc/adc.h"
@@ -11,24 +11,24 @@
 void adc_init(void)
 {
 	ADMUX |=(1<<REFS0); // to make the reference=VCC
-	ADMUX &=~(1<<REFS1); // to ensure that reference=VCC
-	ADCSRA|=(1<< ADEN);  // to turn on the ADC
-	ADCSRA|=(1<< ADSC); //to start new conversion
-	ADCSRA|=(1<< ADPS0); //Set the prescaler to 256 or 128
-	ADCSRA|=(1<< ADPS1);
-	ADCSRA|=(1<< ADPS2); // to determine the frequency
+	ADMUX &=~(1 <<REFS1); // to ensure that reference=VCC
+	ADCSRA|=(1 << ADEN);  // to turn on the ADC
+	ADCSRA|=(1 << ADSC); //to start new conversion
+	ADCSRA|=(1 << ADPS0); //Set the prescaler to 256 or 128
+	ADCSRA|=(1 << ADPS1);
+	ADCSRA|=(1 << ADPS2); // to determine the frequency
 	
 }
 
 
-int adc_read (int channel )
+int adc_read (int channel)
 {
-	ADMUX &=0xF0; //to clear the value of the older channel
-	ADMUX |=channel; // to determine which channel from 0 to 7
-	ADCSRA|=(1<< ADSC); //to start new conversion
+	ADMUX &= 0xF0; //to clear the value of the older channel
+	ADMUX |= channel; // to determine which channel from 0 to 7
+	ADCSRA|= (1<< ADSC); //to start new conversion
 	while(ADCSRA &(1<< ADSC)); // wait until the conversion is done
 	
-	return ADC ;
+	return ADC;
 }
 
 

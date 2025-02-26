@@ -1,6 +1,8 @@
 #pragma once
 
 #include <util/delay.h>
+#include <stdlib.h>
+#include <math.h>
 #include "../inc/adc.h"
 #include "../inc/lcd.h"
 #include "../inc/i2c.h"

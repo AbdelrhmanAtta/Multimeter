@@ -1,14 +1,14 @@
+/* lcd.c
+*
+* Created : 29/3/2024
+* Author : A.Atta
+*/ 
+
 #include "../inc/lcd.h"
-#include "../inc/i2c.h"
-
-#include <avr/io.h>
-#include <util/delay.h>
-#include <stdlib.h>
-#include "../inc/adc.h"
 
 
-
-void lcd_clear(void) {
+void lcd_clear(void) 
+{
 
 	lcd_command_write(DISPLAY_CLEAR, BIT_MODE_4);
 	_delay_ms(2); //	more than 1.52ms
@@ -16,11 +16,15 @@ void lcd_clear(void) {
 
 
 // The first few calls happen during initialization while the lcd is still in 8-bit mode
-void lcd_command_write(uint8_t command, uint8_t mode) {
+void lcd_command_write(uint8_t command, uint8_t mode) 
+{
 
-	if (mode == BIT_MODE_8) {
+	if (mode == BIT_MODE_8) 
+	{
 		lcd_send(command);
-	} else if (mode == BIT_MODE_4) {
+	} 
+	else if (mode == BIT_MODE_4) 
+	{
 		uint8_t highnib = (command & 0xF0);
 		uint8_t lownib  = ( (command << 4) & 0xF0 );
 
@@ -31,7 +35,8 @@ void lcd_command_write(uint8_t command, uint8_t mode) {
 }
 
 
-void lcd_data_write(uint8_t data) {
+void lcd_data_write(uint8_t data) 
+{
 
 	uint8_t highnib = (data & 0xF0);
 	uint8_t lownib  = ( (data << 4) & 0xF0 );
@@ -41,7 +46,8 @@ void lcd_data_write(uint8_t data) {
 }
 
 
-void lcd_enable(uint8_t data) {
+void lcd_enable(uint8_t data) 
+{
 
 	send_over_twi(data | (1 << ENABLE_BIT));
 	_delay_us(1);
@@ -51,7 +57,8 @@ void lcd_enable(uint8_t data) {
 }
 
 
-void lcd_init(void) {
+void lcd_init(void) 
+{
 
 	//	implement page 46 of the datasheet
 	_delay_ms(50); // more than 40ms
@@ -73,9 +80,11 @@ void lcd_init(void) {
 }
 
 
-void lcd_load_pattern(uint8_t index_pattern) {
+void lcd_load_pattern(uint8_t index_pattern) 
+{
 
-	if (index_pattern > 15) {
+	if (index_pattern > 15)
+	{
 		return;
 	}
 
@@ -83,9 +92,11 @@ void lcd_load_pattern(uint8_t index_pattern) {
 }
 
 
-void lcd_move_cursor(uint8_t line, uint8_t col) {
+void lcd_move_cursor(uint8_t line, uint8_t col) 
+{
 
-	if ( (line > 1) || (col > 15) ) {
+	if ( (line > 1) || (col > 15) ) 
+	{
 		return;
 	}
 
@@ -99,9 +110,11 @@ void lcd_move_cursor(uint8_t line, uint8_t col) {
 }
 
 
-void lcd_print(char msg[]){
+void lcd_print(char msg[])
+{
 
-	while (*msg) {
+	while (*msg) 
+	{
 
 		lcd_data_write(*msg++);
 		lcd_command_write(0x0C, BIT_MODE_4);
@@ -109,22 +122,26 @@ void lcd_print(char msg[]){
 }
 
 
-void lcd_print_nl (void) {
+void lcd_print_nl (void) 
+{
 
 	lcd_move_cursor (1, 0);
 }
 
 
-void lcd_save_pattern(char pattern[], size_t size, uint8_t addr_offset) {
+void lcd_save_pattern(char pattern[], size_t size, uint8_t addr_offset) 
+{
 
-	if (size / sizeof(char) != 8) {
+	if (size / sizeof(char) != 8) 
+	{
 		return;
 	}
 
 	// Set cgram address and send cgram data
 	lcd_command_write(0x40 + addr_offset*8, 0);
 
-	for (uint8_t i = 0; i < 7; ++i) {
+	for (uint8_t i = 0; i < 7; ++i) 
+	{
 
 		lcd_data_write(pattern[i]);
 	}
@@ -134,22 +151,25 @@ void lcd_save_pattern(char pattern[], size_t size, uint8_t addr_offset) {
 }
 
 
-void lcd_send (uint8_t data) {
+void lcd_send (uint8_t data) 
+{
 
 	send_over_twi(data | BT_DATA);
 	lcd_enable(data | BT_DATA);
 }
 
 
-void lcd_print_int(uint16_t value) {
-	char buffer[10];  // Adjust buffer size based on the max number length (e.g., for 16-bit integers)
+void lcd_print_int(uint16_t value) 
+{
+	char buffer[10];  // Adjust buffer size based on the max number length (e.g., for 16-				bit integers)
 	itoa(value, buffer, 10);  // Convert integer to string (base 10)
 	lcd_print(buffer);  // Print the converted string
 	lcd_command_write(0x0C, BIT_MODE_4);
 }
 
 
-void lcd_print_float(float value,int places) {
+void lcd_print_float(float value,int places) 
+{
     char buffer[10];  // Adjust buffer size based on the max number length
     dtostrf(value, 1, places, buffer);  // Convert float to string
     lcd_print(buffer);  // Print the converted string

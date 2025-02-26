@@ -1,8 +1,11 @@
+/* i2c.c
+*
+* Created : 29/3/2024
+* Author : A.Atta
+*/ 
+
 #include "../inc/i2c.h"
 
-#include <avr/io.h>
-#include <util/delay.h>
-#include <util/twi.h>
 
 const uint8_t MAX_RETRIES = 5;
 

@@ -1,6 +1,9 @@
 #pragma once
 
-#include <stdint.h>	// uint8_t
+#include <stdint.h>
+#include <avr/io.h>
+#include <util/delay>
+#include <util/twi.h>
 
 #define ADDRESS_W 0x4E
 

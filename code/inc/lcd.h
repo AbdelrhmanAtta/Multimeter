@@ -1,9 +1,12 @@
 #pragma once
 
-#include <stdint.h> // uint8_t
-#include <stddef.h> // size_t
-#include "../inc/adc.h"
+#include <avr/io.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <stdlib.h>
 #include <util/delay.h>
+#include "../inc/adc.h"
+#include "../inc/i2c.h"
 
 //	D7 D6 D5 D4 BT  E RW RS	:= lcd pins
 //	P7 P6 P5 P4 P3 P2 P1 P0	:= pcf8574 pins
